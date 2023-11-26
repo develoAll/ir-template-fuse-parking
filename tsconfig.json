@@ -1,0 +1,53 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
+    "paths": {
+      "@shared/*": [
+        "app/shared/*"
+      ],
+      "@core/*": [
+        "app/core/*"
+      ],
+      "@environments/*": [
+        "environments/*"
+      ],
+      "@com-corporate/*": [
+        "app/modules/com-corporate/*"
+      ],
+      "@hr-manager/*": [
+        "app/modules/hr-manager/*"
+      ],
+      "@director/*": [
+        "app/modules/director/*"
+      ],
+      "@com-company/*": [
+        "app/modules/com-company/*"
+      ],
+      "@ceos/*": [
+        "app/modules/ceos/*"
+      ],
+      "@absences/*": [
+        "app/modules/absences/*"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false
+  }
+}

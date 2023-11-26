@@ -1,0 +1,11 @@
+export const environment = {
+  production: false,
+  menu: false,
+  VAR_COD_APP: 3,
+  VAR_TOKEN: 'access_token_app',
+  VAR_AUTH: 'auth_ga',
+  VAR_USER: 'user_ga',
+  serverUriApiSecurity: 'http://10.20.12.165:8941/api/integration/v1', // No tocar
+  URL_MEYS: 'http://10.20.12.165:8083', // No tocar
+  URL_ABSENCES_BACKEND: 'http://10.20.12.165:8111',
+};

@@ -1,0 +1,58 @@
+name: ir-hr-parking-micro-webapp # /*** __MODIFY__ (webapp project name) ***/
+trigger:
+  branches:
+    include:
+      - master
+      - release
+      - develop
+    exclude:
+      - feature/*
+pool:
+  vmImage: 'ubuntu-latest'
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: "ir-hr-gdh-support-templates"
+      ref: develop
+
+variables:
+  - group: common-services-variables
+  - group: ir-hr-parking-micro-webapp-variables # /*** __MODIFY__ (webapp-project-name-varaiables) ***/
+  - name: majorVersion
+    value: 1
+  - name: minorVersion
+    value: 0
+  - name: patchVersion
+    value: 0
+
+stages:
+  - stage: SCM
+    displayName: 'Source Code Management'
+    jobs:
+      - template: 'templates/java/stage_scm.yaml@templates'
+        parameters:
+          workingDirectory: ''
+          majorVersion: $(majorVersion)
+          minorVersion: $(minorVersion)
+          patchVersion: $(patchVersion)
+  - stage: Test
+    displayName: 'Runs Performance and E2E tests'
+    jobs:
+      - template: 'templates/java/stage_integration_test.yaml@templates'
+        parameters:
+          sandboxJar: 'application.jar'
+          postmanCollection: './src/test/resources/pm_collection.json'
+  - stage: Release
+    displayName: 'Build and Pushes Docker Image'
+    jobs:
+      - template: 'templates/angular/stage_docker_build_cloud.yaml@templates'
+        parameters:
+          imageTag: '$(majorVersion).$(minorVersion).$(patchVersion)'
+  - stage: DeployApplication
+    displayName: 'Delivery app'
+    jobs:
+      - template: 'templates/angular/stage_deploy_application.yaml@templates'
+        parameters:
+          imageTag: '$(majorVersion).$(minorVersion).$(patchVersion)'

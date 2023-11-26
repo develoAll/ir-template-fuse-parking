@@ -1,0 +1,50 @@
+<div class="relative flex flex-col w-full h-full ">
+
+    <!-- Content -->
+    <div class="flex flex-col flex-auto items-center p-6">
+        <ng-container *ngIf="data.title">
+            <div class="flex flex-col items-center text-center">
+                <!-- Title -->
+                <div class="text-xl leading-2 font-semibold text-primary-ir" [innerHTML]="data.title"></div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="flex flex-col flex-auto items-start pl-9 pb-7">
+        <ng-container *ngIf="data.message">
+            <div class="flex flex-col items-start text-left">
+                <!-- Message -->
+                 <ng-container *ngIf="data.id"><mat-label class="text-primary-ir">Posición {{data.id}}</mat-label></ng-container>
+                <div class="text-default-ir-700 text-left" [innerHTML]="data.message"></div>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Actions -->
+    <ng-container *ngIf="data.actions.confirm.show || data.actions.cancel.show">
+        <div class="grid grid-cols-4 gap-4 w-full px-8 items-center justify-center mb-6 dark:bg-black dark:bg-opacity-10">
+
+            <!-- Cancel -->
+            <ng-container *ngIf="data.actions.cancel.show">
+                <div class="col-span-4" [ngClass]="{'order-2 order-md-1': data.actions.switchOrder}">
+                    <button
+                        mat-stroked-button
+                        [matDialogClose]="'cancelled'" class="btn-basic-ir w-full">
+                        <span>{{data.actions.cancel.label}}</span>
+                    </button>
+                </div>
+            </ng-container>
+
+            <!-- Confirm -->
+            <ng-container *ngIf="data.actions.confirm.show">
+                <div class="col-span-4" [ngClass]="{'order-1 order-md-2': data.actions.switchOrder}">
+                    <button 
+                        mat-flat-button
+                        [matDialogClose]="'confirmed'" class="btn-primary-ir w-full">
+                        <span>{{data.actions.confirm.label}}</span>  
+                    </button>
+                </div>
+            </ng-container>
+
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Omnes';
+    src: url("Omnes-regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'Omnes Medium';
+    src: url("Omnes-medium.woff2") format("woff2");
+}

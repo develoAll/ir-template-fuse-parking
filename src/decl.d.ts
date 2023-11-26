@@ -1,0 +1,1 @@
+declare module 'parking/*'; /*** __MODIFY__ (path) ***/

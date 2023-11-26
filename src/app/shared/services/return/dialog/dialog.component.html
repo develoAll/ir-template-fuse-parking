@@ -1,0 +1,64 @@
+<div class="relative flex flex-col w-full h-full ">
+
+    <!-- Content -->
+    <div class="flex flex-col flex-auto items-center p-6 pb-1">
+        <div class="flex flex-col items-center space-y-5 text-center">
+
+            <!-- Title -->
+            <div class="text-xl leading-2 font-semibold text-primary-ir" *ngIf="this.lstPositionIncomingDataSelected.length === 1">Devolver posición</div>
+            <div class="text-xl leading-2 font-semibold text-primary-ir" *ngIf="this.lstPositionIncomingDataSelected.length > 1">Devolver posiciones</div>
+
+            <!-- Icon -->
+            <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full"
+                [ngClass]="{'text-amber-50 bg-amber-400 dark:text-amber-50 dark:bg-amber-500': true}">
+                <mat-icon class="text-current" [svgIcon]="'table_icons:alert-triangle'"></mat-icon>
+            </div>
+
+            <!-- Message -->
+            <div class="text-default-ir-700" *ngIf="this.lstPositionIncomingDataSelected.length === 1"> Indique el motivo por el que decide devolver esta posición</div>
+            <div class="text-default-ir-700 ml-1.5" *ngIf="this.lstPositionIncomingDataSelected.length > 1"> Indique los motivos por el que decide devolver estas posiciones</div>
+
+        </div>
+    </div>
+
+    <!-- TextAreas -->
+    <div class="flex flex-col flex-auto overflow-x-auto items-center space-y-3 max-h-60 mx-5 mt-2 mb-2 px-2 text-center">
+        <ng-container *ngFor="let process of lstPositionIncomingDataSelected; let i = index">
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto w-full" floatLabel="always" [hideRequiredMarker]="true">
+                <mat-label class="text-primary-ir" *ngIf="this.lstPositionIncomingDataSelected.length > 1"
+                    [ngClass]="{'is-invalid-title':getFieldCommentNoValid(i)}">Posición {{i+1}}</mat-label>
+                <textarea matInput [placeholder]="'Ingrese el motivo de devolución'" class="text-default-ir-700" [rows]="3"
+                    [value]="process.comment" [formControl]="fieldComment(i)"></textarea>
+                <mat-error>
+                    <ng-container  *ngIf="fieldComment(i).hasError('required')">
+                        Campo requerido
+                    </ng-container>
+                    <ng-container  *ngIf="fieldComment(i).hasError('maxlength')">
+                        Máximo {{fieldComment(i).getError('maxlength').requiredLength}} caracteres
+                    </ng-container>
+                </mat-error>
+            </mat-form-field>
+        </ng-container>
+    </div>
+
+    <!-- Actions -->
+    <div class="grid grid-cols-4 gap-4 w-full px-6 items-center justify-center mb-6 mt-2 dark:bg-black dark:bg-opacity-10">
+
+        <!-- Confirm -->
+        <div class="col-span-4">
+            <button mat-flat-button class="btn-primary-ir w-full" (click)="saveReasonReturnPosition()" [disabled]="formReturnPositions.invalid">
+                <span>Guardar devolución</span>  
+            </button>
+        </div>
+
+        <!-- Cancel -->
+        <div class="col-span-4">
+            <button
+                mat-stroked-button
+                [matDialogClose]="'cancelled'" class="btn-basic-ir w-full">
+                <span>Cancelar</span>
+            </button>
+        </div>
+
+    </div>
+</div>

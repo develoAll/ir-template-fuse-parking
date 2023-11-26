@@ -1,0 +1,67 @@
+<div
+    class="flex flex-col flex-auto md:w-200 md:min-w-200 max-h-screen -m-6 overflow-y-auto content-scroll">
+    <!-- md:w-280 md:min-w-280 -->
+
+    <!-- Header -->
+    <div
+        class="flex flex-0 items-center justify-between py-6 px-6 bg-card text-accent">
+        <div class="font-medium popup-title">Agregar registro de posición</div>
+        <button mat-icon-button (click)="dialogRef.close()">
+            <mat-icon [svgIcon]="'heroicons_outline:x-circle'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Body -->
+    <ng-container>
+        <div
+            class="flex flex-col flex-0 items-start w-full p-10 overflow-y-auto">
+
+            <mat-form-field floatLabel="always"
+                class="w-full"
+                [subscriptSizing]="'dynamic'">
+
+                <mat-icon
+                    class="icon-size-5"
+                    matSuffix
+                    [svgIcon]="'carbon:search'"></mat-icon>
+
+                <input matInput
+                    [placeholder]="'Ingrese el código, nombre del titular o nombre de la posición'"
+                    (keyup)="searchTextProcess()"
+                    [(ngModel)]="textInput">
+
+            </mat-form-field>
+
+            <div *ngIf="searchList.length > 0"
+                class="relative w-full shadow-lg rounded-lg bg-card max-h-60 overflow-y-auto border-neutral-100 content-scroll">
+                <button mat-menu-item *ngFor="let item of searchList"
+                    (click)="selectPosition(item)">
+                    <span>{{item.codPositionHcm}} - {{ item.namePosition }} -
+                        {{item.employee}}</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-4 w-full pt-4 sm:py-4 px-5 sm:px-10">
+                <div class="col-span-4">
+                    <fuse-alert [name]="'alertBox1'" [type]="'warning'"
+                        [appearance]="'outline'">
+                        Debe ingresar mínimo 5 caracteres.
+                    </fuse-alert>
+                </div>
+            </div>
+        </div>
+
+    </ng-container>
+
+    <div class="flex flex-col items-center justify-center w-4/4 px-6 py-4">
+        <button mat-flat-button class="w-1/2 mb-4 btn-primary-ir mr-2"
+            [disabled]="!flagSelect"
+            (click)="add()">
+            Agregar Registros
+        </button>
+        <button mat-flat-button class="w-1/2 mb-4 btn-basic-ir ml-2"
+            (click)="dialogRef.close()">
+            <span class="ml-2 mr-1">Cancelar</span>
+        </button>
+    </div>
+
+</div>
