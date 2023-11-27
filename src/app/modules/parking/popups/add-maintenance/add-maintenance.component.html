@@ -1,1 +1,57 @@
-<p>add-maintenance works!</p>
+<div class="flex flex-col flex-auto md:w-120 md:min-w-120 max-h-screen -m-6 overflow-y-auto content-scroll">
+
+  <div class="flex flex-0 items-center justify-between py-6 px-6 bg-card text-accent">
+    <div class="font-medium popup-title">Agregar</div>
+    <mat-icon class="mr-1 cursor-pointer" (click)="dialogRef.close(false)">highlight_off</mat-icon>
+  </div>
+
+  <ng-container>
+    <div class="flex flex-col flex-0 items-center w-full overflow-y-auto">
+
+        <ng-container>
+            <form [formGroup]="inputForm" class="w-full">
+                <div class="flex flex-col w-full px-6">
+                  <span
+                    class="text-primary-ir ft-12 pb-1 w-full text-left">Empresa a configurar
+                  </span>
+                  <mat-form-field class="fuse-mat-dense w-full">
+                      <mat-select [formControlName]="'company'" placeholder="Seleccionar">
+                            <mat-option [value]="'1'">IR MANAGEMENT</mat-option>
+                            <mat-option [value]="'2'">HOME CENTER</mat-option>
+                            <!-- <mat-option [value]="list.id" *ngFor="let list of listInsourcingCompany"> {{ list.name }} </mat-option> -->
+                      </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="flex flex-col w-full px-6">
+                  <span
+                    class="text-primary-ir ft-12 pb-1 w-full text-left">Número de estacionamiento
+                  </span>
+                  <mat-form-field class="fuse-mat-dense w-full">
+                      <input matInput
+                        [placeholder]="'Ingrese el número de estacionamiento'"
+                        [formControlName]="'numberParking'">
+                  </mat-form-field>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+
+    <div class="flex flex-row items-center justify-center w-full px-6 py-4">
+
+      <button mat-flat-button class="w-full mb-4 btn-primary-ir mr-3" [disabled]="inputForm.invalid" (click)="save()">
+        <span>Guardar</span>
+        <mat-progress-spinner
+          *ngIf="isLoading"
+          [diameter]="24"
+          [mode]="'indeterminate'">
+        </mat-progress-spinner>
+      </button>
+      <button mat-flat-button class="w-full mb-4 btn-basic-ir" (click)="dialogRef.close(false)">
+        <span class="mr-1">Cancelar</span>
+      </button>
+      
+    </div>
+
+  </ng-container>
+
+</div>

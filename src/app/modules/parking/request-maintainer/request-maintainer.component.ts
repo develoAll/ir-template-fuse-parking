@@ -15,6 +15,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActionMessageComponent } from '@shared/popups-common/action-message/action-message.component';
 import { GenerateTxtComponent } from '../popups/generate-txt/generate-txt.component';
 import { ParkingRequestComponent } from '../popups/parking-request/parking-request.component';
+import { AssignmentMaintainerResponse } from '@shared/models/response/maintainer-parking-response.interface';
+import { AssignmentMaintainerRequests } from '@shared/models/request/maintainer-parking-request.interface';
+import { ConfigureMaintenanceComponent } from '../popups/configure-maintenance/configure-maintenance.component';
+import { AddMaintenanceComponent } from '../popups/add-maintenance/add-maintenance.component';
 
 @Component({
   selector: 'app-request-maintainer',
@@ -26,7 +30,6 @@ import { ParkingRequestComponent } from '../popups/parking-request/parking-reque
 export class RequestMaintainerComponent implements OnInit{
 
   dateFieldType: number = 1;
-
   requestsFilterForm: FormGroup;
   requestsTableColumns: string[] = [
     "numberID", "company", "numberDoc", "name",
@@ -45,6 +48,29 @@ export class RequestMaintainerComponent implements OnInit{
   }
   validExportReport: boolean = true
 
+
+
+
+
+  maintainerFilterForm: FormGroup;
+  maintainerTableColumns: string[] = [
+    "numberID", "company", "parking", "numberDoc", "name", "numberPlate",
+     "dateAssingment", "dateApplication", "state", "action"
+  ]
+  maintainerDataSource: MatTableDataSource<AssignmentMaintainerResponse>
+  reportGetMantainer: AssignmentMaintainerRequests = {} as AssignmentMaintainerRequests
+  maintainerPageReq: PagesRequest = {
+    page: 0,
+    size: 10
+  }
+  maintainerPageResp: PagesResponse = {
+    currentPage: 0,
+    totalItems: 0,
+    totalPages: 0
+  }
+
+
+
   constructor(
     private _formBuilder: FormBuilder,
     private _reportAssignmentService: ReportAssignmentService,
@@ -52,7 +78,7 @@ export class RequestMaintainerComponent implements OnInit{
   )
   {
     this.requestsFilterForm = this.setRequestsFormValue();
-
+    this.maintainerFilterForm = this.setMaintainerFormValue();
   }
   
   ngOnInit(): void {
@@ -70,14 +96,17 @@ export class RequestMaintainerComponent implements OnInit{
       numberDoc: ['', []],
     });
   }
-
-  getPageRequest(){
-    this.requestsPageReq = {
-      page: 0,
-      size: 10
-    }
-    this.getRequests();
+  setMaintainerFormValue(){
+    return this._formBuilder.group({
+      company: [ '' , []],
+      state: ['', []],
+      typeDoc: ['', []],
+      numberDoc: ['', []],
+    });
   }
+
+
+
   onChangeDateField(event: MatRadioChange) {
     this.dateFieldType = event.value;
     this.clearDate();
@@ -86,6 +115,13 @@ export class RequestMaintainerComponent implements OnInit{
     this.requestsFilterForm.get('date').setValue('');
     this.requestsFilterForm.get('dateRangeInit').setValue('');
     this.requestsFilterForm.get('dateRangeEnd').setValue('');
+  }
+  getPageRequest(){
+    this.requestsPageReq = {
+      page: 0,
+      size: 10
+    }
+    this.getRequests();
   }
   getRequests(){
     this.reportGetRequest = {
@@ -208,16 +244,123 @@ export class RequestMaintainerComponent implements OnInit{
 
 
   // mantenedor
-  getMaintenance(){}
+  getPageMaintainer(){
+    this.maintainerPageReq = {
+      page: 0,
+      size: 10
+    }
+    this.getMaintainer();
+  }
+  getMaintainer(){
+    this.reportGetMantainer = {
+      ...this.maintainerFilterForm.value,
+      size: this.maintainerPageReq.size,
+      page: this.maintainerPageReq.page,
+    }
+
+    console.log('enviadoReportMaintainer',this.reportGetMantainer);
+
+
+    let  response = {
+      data: {
+        assignments: [
+        {
+          id:               1,
+          company:          "IR MANAGEMENT",
+          parking:          "Rumbla 2c-5",
+          numberDoc:        "76560222",
+          name:             "Juan Pelan Orosco Tallo",
+          numberPlate:      "ABS-221",
+          dateAssingment:   "28/11/2023",
+          dateApplication:  "28/11/2023",
+          state:            "ASIGNADO",
+        },
+        {
+          id:               2,
+          company:          "IR MANAGEMENT",
+          parking:          "Rumbla 2c-5",
+          numberDoc:        "76560222",
+          name:             "Juan Pelan Orosco Tallo",
+          numberPlate:      "ABS-221",
+          dateAssingment:   "28/11/2023",
+          dateApplication:  "28/11/2023",
+          state:            "ASIGNADO",
+        },
+        {
+          id:               3,
+          company:          "IR MANAGEMENT",
+          parking:          "Rumbla 2c-5",
+          numberDoc:        "76560222",
+          name:             "Juan Pelan Orosco Tallo",
+          numberPlate:      "ABS-221",
+          dateAssingment:   "28/11/2023",
+          dateApplication:  "28/11/2023",
+          state:            "ASIGNADO",
+        },
+        {
+          id:               4,
+          company:          "IR MANAGEMENT",
+          parking:          "Rumbla 2c-5",
+          numberDoc:        "76560222",
+          name:             "Juan Pelan Orosco Tallo",
+          numberPlate:      "ABS-221",
+          dateAssingment:   "28/11/2023",
+          dateApplication:  "28/11/2023",
+          state:            "ASIGNADO",
+        },
+        {
+          id:               5,
+          company:          "IR MANAGEMENT",
+          parking:          "Rumbla 2c-5",
+          numberDoc:        "76560222",
+          name:             "Juan Pelan Orosco Tallo",
+          numberPlate:      "ABS-221",
+          dateAssingment:   "28/11/2023",
+          dateApplication:  "28/11/2023",
+          state:            "ASIGNADO",
+        },
+      ]
+      }
+    }
+
+    this.maintainerDataSource = new MatTableDataSource(response.data.assignments)
+
+  }
+  dialogConfigMaintainer(){
+    const dialogOpenConfig = this._dialog.open(ConfigureMaintenanceComponent, {
+      disableClose: true,
+    });
+
+    dialogOpenConfig.afterClosed().subscribe(result => {
+      if(result == true){
+        return;
+      }else{
+        return;
+      }
+    });
+  }
+  dialogAddMaintainer(){
+    const dialogOpenConfig = this._dialog.open(AddMaintenanceComponent, {
+      disableClose: true,
+    });
+
+    dialogOpenConfig.afterClosed().subscribe(result => {
+      if(result == true){
+        return;
+      }else{
+        return;
+      }
+    });
+  }
 
 
 
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
-    if (tabChangeEvent.index === 1) {
+    if (tabChangeEvent.index === 0) {
       this.getPageRequest()
     }else {
-      this.getMaintenance()
+      this.getPageMaintainer()
     }
   }
   openMessage(title: string, message: string, type: 'success' | 'warning' | 'error' | 'cancel') {
