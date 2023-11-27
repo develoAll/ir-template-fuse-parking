@@ -30,7 +30,7 @@ export class ManageParkingComponent {
     return this._formBuilder.group({
       typeDoc: [ null , [Validators.required]],
       numberDoc: [ '' , [Validators.required]],
-      name: [ '' , []],
+      name: [ {value:'', disabled: true} , []],
     });
   }
 
