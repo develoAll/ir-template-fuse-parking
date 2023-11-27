@@ -19,6 +19,7 @@ import { AssignmentMaintainerResponse } from '@shared/models/response/maintainer
 import { AssignmentMaintainerRequests } from '@shared/models/request/maintainer-parking-request.interface';
 import { ConfigureMaintenanceComponent } from '../popups/configure-maintenance/configure-maintenance.component';
 import { AddMaintenanceComponent } from '../popups/add-maintenance/add-maintenance.component';
+import { ManageParkingComponent } from '../popups/manage-parking/manage-parking.component';
 
 @Component({
   selector: 'app-request-maintainer',
@@ -345,6 +346,20 @@ export class RequestMaintainerComponent implements OnInit{
     });
 
     dialogOpenConfig.afterClosed().subscribe(result => {
+      if(result == true){
+        return;
+      }else{
+        return;
+      }
+    });
+  }
+  dialogEditMaintainer(id: number){
+    const dialogOpenEdit = this._dialog.open(ManageParkingComponent, {
+      disableClose: true,
+      data: id
+    });
+
+    dialogOpenEdit.afterClosed().subscribe(result => {
       if(result == true){
         return;
       }else{
