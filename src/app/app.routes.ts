@@ -12,14 +12,14 @@ import { LayoutComponent } from 'app/layout/layout.component';
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/presupuesto/crear-presupuesto'
-    { path: '', pathMatch: 'full', redirectTo: 'home' },
+    { path: '', pathMatch: 'full', redirectTo: 'estacionamiento' },
 
     // Redirect signed-in user to the '/presupuesto/crear-presupuesto'
     //
     // After the user signs in, the sign-in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'home' },
+    { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'estacionamiento' },
 
     // Auth routes for guests
     {
@@ -68,7 +68,7 @@ export const appRoutes: Route[] = [
                 ]
             },
             // Proximamente
-            { path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes') },
+            { path: 'estacionamiento', loadChildren: () => import('app/modules/parking/parking.routes') },
         ]
     }
 ];

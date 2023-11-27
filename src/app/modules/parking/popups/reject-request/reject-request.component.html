@@ -1,0 +1,42 @@
+<div class="flex flex-col flex-auto md:w-120 md:min-w-120 max-h-screen -m-6 overflow-y-auto content-scroll">
+
+  <div class="flex flex-0 items-center justify-center py-6 px-6 bg-card text-accent">
+    <div class="font-medium popup-title">Rechazar solicitud</div>
+  </div>
+
+  <ng-container>
+
+    <div *ngIf="data != null" class="flex flex-col flex-0 items-center w-full overflow-y-auto">
+      <mat-icon class="icon-size-20 mb-3" [svgIcon]="'table-icons:circle-x-filled'" [color]="'warn'"></mat-icon>
+      <ng-container>
+          <form [formGroup]="inputForm" class="w-full">
+              <div class="flex flex-col items-center w-full px-6">
+                  <span class="text-secondary mb-6 font-medium w-full text-center">Indique el detalle por el que decide rechazar esta solicitud</span>
+                  <mat-form-field class="fuse-mat-dense w-full">
+                    <textarea matInput
+                    placeholder="Ingrese el detalle"
+                    formControlName="textReject"
+                    ></textarea>
+                </mat-form-field>
+              </div>
+          </form>
+      </ng-container>
+    </div>
+
+    <div class="flex flex-row items-center justify-center w-full px-6 py-4">
+      <button mat-flat-button class="w-full mb-4 btn-basic-ir mr-2" (click)="dialogRef.close(false)">
+          <span class="mr-1">Cancelar</span>
+      </button>
+      <button mat-flat-button class="w-full mb-4 btn-primary-ir ml-2" [disabled]="inputForm.invalid" (click)="send()">
+          <span>Enviar</span>
+          <mat-progress-spinner
+            *ngIf="isLoading"
+            [diameter]="24"
+            [mode]="'indeterminate'">
+          </mat-progress-spinner>
+        </button>
+    </div>
+
+  </ng-container>
+
+</div>

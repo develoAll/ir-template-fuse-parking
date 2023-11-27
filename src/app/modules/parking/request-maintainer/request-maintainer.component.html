@@ -1,0 +1,260 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+  <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-8 pb-4 px-6 md:px-8">
+
+    <div class="font-semibold tracking-tight title-page">Estacionamiento</div>
+
+ </div>
+
+ <div class="flex flex-auto overflow-hidden">
+  <div class="flex flex-col flex-auto sm:overflow-y-auto">
+
+    <div class="flex flex-col w-full pl-2 pr-2">
+
+      <mat-tab-group class="sm:px-0 w-full" mat-stretch-tabs="false" [animationDuration]="'0'"
+               (selectedTabChange)="tabChanged($event)">
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+              <span class="inline-flex items-center space-x-2">
+                <span class="text-primary-ir-1000">Solicitudes</span>
+              </span>
+          </ng-template>
+          <ng-template matTabContent>
+            <form [formGroup]="requestsFilterForm" #searchNgForm="ngForm">
+              <div class="flex flex-row w-full items-end">
+                <div class="flex flex-col w-1/4 pr-6">
+                  <span
+                     class="text-primary-ir ft-12 pb-1 w-full text-left">Empresa
+                  </span>
+                  <mat-form-field class="w-full">
+                     <mat-select [formControlName]="'company'" placeholder="Seleccionar">
+                           <mat-option [value]="''">Todas</mat-option>
+                           <mat-option [value]="'1'">Ir Managements</mat-option>
+                           <mat-option [value]="'2'">Promart</mat-option>
+                           <!-- <mat-option [value]="list.id" *ngFor="let list of listInsourcingCompany"> {{ list.name }} </mat-option> -->
+                     </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="flex flex-col w-1/4 pr-6">
+                  <span
+                      class="text-primary-ir ft-12 pb-1 w-full text-left">Estado de solicitud
+                  </span>
+                  <mat-form-field class="w-full">
+                    <mat-select [formControlName]="'state'" placeholder="Seleccionar">
+                        <mat-option [value]="''">Todas</mat-option>
+                        <mat-option [value]="'1'">Pendiente</mat-option>
+                        <mat-option [value]="'2'">Aprobado</mat-option>
+                        <mat-option [value]="'3'">Rechazado</mat-option>
+                        <!-- <mat-option [value]="list.id" *ngFor="let list of listInsourcingCompany"> {{ list.name }} </mat-option> -->
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="flex flex-col w-1/4 pr-6">
+                  <span
+                      class="text-primary-ir ft-12 pb-1 w-full text-left">
+                      <mat-radio-group aria-label="Selecciona una opción" class="mt-2" [value]="dateFieldType" (change)="onChangeDateField($event)">
+                        <mat-radio-button color="primary" value="1"><span
+                                class="color-primary fw-500">Fecha</span></mat-radio-button>
+                        <mat-radio-button color="primary" value="2" class="ml-3"><span class="color-primary fw-500">Desde -
+                                Hasta</span></mat-radio-button>
+                    </mat-radio-group>
+                  </span>
+                  <mat-form-field class="w-full" *ngIf="dateFieldType == 1">
+                    <input
+                        [placeholder]="'DD/MM/AAAAA'"
+                        matInput
+                        [matDatepicker]="picker"
+                        readonly formControlName="date">
+                    <mat-datepicker-toggle matIconSuffix
+                        [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field class="w-full" *ngIf="dateFieldType == 2">
+                    <mat-date-range-input [rangePicker]="pickerRange">
+                      <input matStartDate formControlName="dateRangeInit" placeholder="DD/MM/AAAAA">
+                      <input matEndDate formControlName="dateRangeEnd" placeholder="DD/MM/AAAAA">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerRange"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerRange></mat-date-range-picker>
+                  </mat-form-field>
+                </div>
+                <div class="flex flex-col w-1/4 pr-6">
+                  <span
+                      class="text-primary-ir ft-12 pb-1 w-full text-left">Tipo de documento
+                  </span>
+                  <mat-form-field class="w-full">
+                    <mat-select [formControlName]="'typeDoc'" placeholder="Seleccionar">
+                        <mat-option [value]="''">Todas</mat-option>
+                        <mat-option [value]="'1'">DNI</mat-option>
+                        <mat-option [value]="'2'">CE</mat-option>
+                        <mat-option [value]="'3'">CARNET</mat-option>
+                        <!-- <mat-option [value]="list.id" *ngFor="let list of listInsourcingCompany"> {{ list.name }} </mat-option> -->
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="flex flex-row w-full items-end justify-between">
+                <div class="flex flex-col w-1/4 pr-6">
+                  <span
+                    class="text-primary-ir ft-12 pb-1 w-full text-left">Número de documento
+                  </span>
+                  <mat-form-field class="w-full">
+                      <input matInput
+                        [placeholder]="'Ingrese número de documento'"
+                        [formControlName]="'numberDoc'">
+                  </mat-form-field>
+                </div>
+                <div class="flex flex-col w-1/6 pr-6">
+                  <button mat-stroked-button
+                    class="btn-primary-ir mb-4 sm:mb-0 w-full sm:w-auto mr-4"
+                    (click)="getPageRequest()">
+                    <mat-icon svgIcon="heroicons_solid:magnifying-glass-circle"
+                        class="icon-size-6 text-white"></mat-icon>
+                    <span class="ml-2">Buscar</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div class="flex flex-row w-full justify-end">
+                <div class="flex flex-col w-1/6 pr-6">
+                  <button mat-stroked-button
+                    class="btn-basic-ir mb-4 sm:mb-0 w-full sm:w-auto mr-4"
+                    (click)="dialogGenerateTxt()">
+                    <!-- <mat-icon svgIcon="heroicons_solid:magnifying-glass-circle"
+                        class="icon-size-6 text-white"></mat-icon> -->
+                    <span class="ml-2">Generar TXT</span>
+                  </button>
+                </div>
+
+                <div class="flex flex-col w-1/6 pr-6">
+                  <button mat-stroked-button [disabled]="validExportReport"
+                    [ngClass]="validExportReport ? 'btn-primary-ir:disable': 'btn-primary-ir'"
+                    class="mb-4 sm:mb-0 w-full sm:w-auto mr-4"
+                    (click)="getPageRequest()">
+                    <mat-icon svgIcon="heroicons_solid:magnifying-glass-circle"
+                        class="icon-size-6 text-white"></mat-icon>
+                    <span class="ml-2">Exportar resultados</span>
+                  </button>
+                </div>
+            </div>
+
+            <div class="flex flex-row w-full mt-6 mb-6">
+              <div class="overflow-x-auto w-full mx-6">
+                <table
+                  class="w-full bg-transparent"
+                  mat-table
+                  [dataSource]="requestDataSource">
+
+                  <ng-container matColumnDef="numberID">
+                    <th mat-header-cell *matHeaderCellDef>
+                        N°
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                        {{item.id}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="company">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Empresa
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                      {{item.company}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="numberDoc">
+                    <th mat-header-cell *matHeaderCellDef>
+                      N° de documento
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                      {{item.numberDoc}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Nombre completo
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                      {{item.name}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="dateRequest">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Fecha de solicitud
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                      {{item.dateRequest}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="dateAttention">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Fecha de atención
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                      {{item.dateAttention}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="numberParking">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Nro de estacionamiento
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                      <div class="text-center">
+                        {{item.numberParking}}
+                      </div>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="state">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Estado
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                      {{item.state}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <div class="text-center">
+                        Acciones
+                      </div>
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                      <div class="flex flex-row tems-center justify-center">
+                        <button mat-stroked-button
+                            class="btn-basic-ir w-full sm:w-auto"
+                            (click)="dialogShowDetail(item)">
+                            <mat-icon class="icon-size-4 text-primary-ir"
+                                [svgIcon]="'heroicons_outline:document-check'">
+                            </mat-icon>
+                            <span class="ml-2">Trazabilidad</span>
+                        </button>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="requestsTableColumns"></tr>
+                  <tr class="order-row h-16" mat-row *matRowDef="let row; columns: requestsTableColumns;"></tr>
+                </table>
+              </div>
+            </div>
+
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+              <span class="inline-flex items-center space-x-2">
+                <span class="text-primary-ir-1000">Mantenedor</span>
+              </span>
+          </ng-template>
+          <ng-template matTabContent>
+
+          </ng-template>
+        </mat-tab>
+
+      </mat-tab-group>
+    </div>
+
+  </div>
+ </div>
+
+</div>

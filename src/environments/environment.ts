@@ -6,6 +6,7 @@ export const environment = {
     VAR_AUTH: 'auth_ga',
     VAR_USER: 'user_ga',
     serverUriApiSecurity: 'http://localhost:8941/api/integration/v1', // No tocar
+    serverUriBaseParkingManagerApi: 'http://localhost:9098/api/ir-hr-parking-manager-api/v1',
     URL_MEYS: 'http://localhost:8083', // No tocar
     URL_ABSENCES_BACKEND: 'http://localhost:8111',
 };
